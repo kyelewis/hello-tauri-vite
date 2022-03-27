@@ -3,24 +3,30 @@
 ## How to recreate me from scratch
 
 ### Vite
-- Run `npm init` to create a package.json for npm
+Run `npm init` to create a package.json for npm:
+
 ```sh
 npm init  # (or yarn init, or pnpm init)
 ```
 
-- Install the required javascript dependencies from npm
+Install the required javascript dependencies from npm:
+
  `vite` and `esbuild` are used to serve and build the web content. 
+
 `esbuild-register` is used to run the build script typescript files without a compile step, as in `node -r esbuild-register dev.ts`
+
 `typescript` is used for typescript support
+
 `@tauri-apps/cli` is used in the build scripts to run or build the tauri app
-`@tauri-apps/api` is used in the web content to communicate with the tauri/rust backend
+
+`@tauri-apps/api` is used in to communicate with between the renderer/web content and the tauri/rust backend
 
 ```sh
 npm install -D vite esbuild esbuild-register typescript @tauri-apps/cli
 npm install @tauri-apps/api
 ```
 
-- Make a folder for the web source and create initial index.html and index.ts
+Make a folder for the web source and create initial index.html and index.ts
 
 ```sh
 mkdir src-vite
@@ -49,47 +55,52 @@ document.getElementById('say_hello').addEventListener('click', handleOnPressButo
 ```
 
 ### Tauri
-- Create a source folder for tauri, and run cargo init to initialise a new empty rust/cargo project in it.
+
+_If you want, you can use `tauri init` to create a scaffold tauri project- but if you want to know how to do it yourself instead:_
+
+Create a source folder for tauri, and run cargo init to initialise a new empty rust/cargo project in it.
 ```sh
 mkdir src-tauri
 cargo init ./src-tauri
 ```
 
-- Add tauri and related dependencies to Cargo.toml:
+Add tauri and its related dependencies to Cargo.toml:
+
+`serde` and related are used for parsing JSON, both from the tauri.config.json file and from messages between the renderer and tauri.
+
 ```toml
 ```
 
-- Create a tauri json config file.
-If this file is not created, defaults will be used.
+Create a `tauri.config.json` file- tauri reads this in a macro to create its configuration context- it is possible, but discouraged by the tauri developers, to do this config yourself in rust instead.
 ```json
 ```
 
-- Add the basic rust source for tauri to src/app.rs, including a command handler for our `say_hello` command.
+Add the basic rust source for tauri to src/app.rs, including a command handler for our `say_hello` command.
 ```rust
 ```
 
 ### Build Scripts
 
-- Make a folder for the build scripts, and create two scripts and a common vite config.
+Make a folder for the build scripts, and create two scripts and a common vite config.
 ```sh
 mkdir scripts
 touch scripts/dev.ts scripts/build.ts scripts/vite.ts
 ```
 
-- Create a vite script to store a common configuration file
+Create a vite script to store a common configuration file
 ```ts
 ```
 
-- Create a dev script to allow for running vite and tauri
+Create a dev script to allow for running vite and tauri
 ```ts
 ```
 
-- Create a build script to allow for building vite and tauri
+Create a build script to allow for building vite and tauri
 ```ts
 ```
 
-- Update package.json to add the two scripts
+Update package.json to add the two scripts
 ```json
 ```
 
-- Test running `npm dev` / `yarn dev` / `pnpm dev`
+Test running `npm dev` (or equivalent)
