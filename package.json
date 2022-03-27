@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm dev",
     "dev": "node -r esbuild-register scripts/start-tauri-vite.ts",
-    "build": "node -r esbuild-register scripts/build-tauri-vite.ts"
+    "build": "node -r esbuild-register scripts/build-tauri-vite.ts",
+    "clean": "scripts/clean.sh"
   },
   "author": "Kye Lewis <kye@kyedoesdev.com>",
   "license": "MIT",
