@@ -3,21 +3,28 @@
 ## How to recreate me from scratch
 
 ### Vite
-- Initialise the npm package to create a package.json
-```shell
-npm init (or yarn init, or pnpm init)
+- Run `npm init` to create a package.json for npm
+```sh
+npm init  # (or yarn init, or pnpm init)
 ```
 
-- Install the required dependencies
-```shell
-npm install -D typescript vite esbuild esbuild-register @tauri-apps/cli
+- Install the required javascript dependencies from npm
+ `vite` and `esbuild` are used to serve and build the web content. 
+`esbuild-register` is used to run the build script typescript files without a compile step, as in `node -r esbuild-register dev.ts`
+`typescript` is used for typescript support
+`@tauri-apps/cli` is used in the build scripts to run or build the tauri app
+`@tauri-apps/api` is used in the web content to communicate with the tauri/rust backend
+
+```sh
+npm install -D vite esbuild esbuild-register typescript @tauri-apps/cli
 npm install @tauri-apps/api
 ```
 
-- Make a folder for the web source and create initial index.html
-```shell
+- Make a folder for the web source and create initial index.html and index.ts
+
+```sh
 mkdir src-vite
-touch src-vite/index.html
+touch src-vite/index.html src-vite/index.ts
 ```
 
 ```html
@@ -27,34 +34,45 @@ touch src-vite/index.html
   </head>
   <body>
     <h1>Hello, World!</h1>
+    <button id="say_hello">Say Hello!</button>
+    <script type="module" src="index.ts"></script>
   </body>
 </html>
 ```
 
+```ts
+import { invoke } from '@tauri-apps/api`;
+
+const handleOnPressButton = () => invoke('say_hello');
+
+document.getElementById('say_hello').addEventListener('click', handleOnPressButon)
+```
+
 ### Tauri
-- Create a source folder for rust and run cargo init to initialise it
-```shell
+- Create a source folder for tauri, and run cargo init to initialise a new empty rust/cargo project in it.
+```sh
 mkdir src-tauri
-cd src-tauri
-cargo init     // @todo shorter step? cargo init ./src-tauri ?
+cargo init ./src-tauri
 ```
 
 - Add tauri and related dependencies to Cargo.toml:
 ```toml
 ```
 
-- (Optional) create a tauri json config file
+- Create a tauri json config file.
+If this file is not created, defaults will be used.
 ```json
 ```
 
-- Add the basic rust source for tauri to src/app.rs
+- Add the basic rust source for tauri to src/app.rs, including a command handler for our `say_hello` command.
 ```rust
 ```
 
 ### Build Scripts
 
 - Make a folder for the build scripts, and create two scripts and a common vite config.
-```mkdir scripts
+```sh
+mkdir scripts
 touch scripts/dev.ts scripts/build.ts scripts/vite.ts
 ```
 
@@ -73,3 +91,5 @@ touch scripts/dev.ts scripts/build.ts scripts/vite.ts
 - Update package.json to add the two scripts
 ```json
 ```
+
+- Test running `npm dev` / `yarn dev` / `pnpm dev`
