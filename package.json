@@ -1,0 +1,23 @@
+{
+  "name": "tauri-vite-example",
+  "version": "0.1.0",
+  "description": "An example basic project with tauri and vite",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm dev",
+    "dev": "node -r esbuild-register scripts/start-tauri-vite.ts",
+    "build": "node -r esbuild-register scripts/build-tauri-vite.ts"
+  },
+  "author": "Kye Lewis <kye@kyedoesdev.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@tauri-apps/cli": "1.0.0-rc.7",
+    "esbuild": "0.14.28",
+    "esbuild-register": "3.3.2",
+    "vite": "2.8.6",
+    "vite-plugin-elm": "2.5.1"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "1.0.0-rc.2"
+  }
+}
